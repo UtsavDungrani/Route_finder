@@ -1,0 +1,408 @@
+{% extends "base.html" %} {% block title %}Home - Sustainable Travel Route
+Finder{% endblock %} {% block content %}
+<div class="row justify-content-center">
+  <div class="col-lg-8">
+    <!-- Hero Section -->
+    <div class="text-center mb-5">
+      <h1 class="display-4 fw-bold text-dark mb-3">
+        <i class="fas fa-leaf text-success me-3"></i>
+        Find Your Eco-Friendly Route
+      </h1>
+      <p class="lead text-muted">
+        Discover the most sustainable travel options between any two locations.
+        Reduce your carbon footprint while planning your journey.
+      </p>
+    </div>
+
+    <!-- Route Finder Form -->
+    <div class="card shadow-lg">
+      <div class="card-body p-4">
+        <h3 class="card-title text-center mb-4">
+          <i class="fas fa-route me-2"></i>
+          Route Finder
+        </h3>
+
+        <form id="routeForm" method="POST" action="{{ url_for('result') }}">
+          <div class="row">
+            <div class="col-md-6 mb-3">
+              <label for="origin" class="form-label fw-bold">
+                <i class="fas fa-map-marker-alt text-danger me-2"></i>
+                Starting Point
+              </label>
+              <input
+                type="text"
+                class="form-control"
+                id="origin"
+                name="origin"
+                placeholder="Enter starting location..."
+                required
+              />
+              <div class="form-text">City, address, or landmark</div>
+            </div>
+
+            <div class="col-md-6 mb-3">
+              <label for="destination" class="form-label fw-bold">
+                <i class="fas fa-map-marker text-success me-2"></i>
+                Destination
+              </label>
+              <input
+                type="text"
+                class="form-control"
+                id="destination"
+                name="destination"
+                placeholder="Enter destination..."
+                required
+              />
+              <div class="form-text">City, address, or landmark</div>
+            </div>
+          </div>
+
+          <!-- Vehicle Selection Section -->
+          <div class="card mt-4 mb-4">
+            <div class="card-header">
+              <h5 class="mb-0">
+                <i class="fas fa-car me-2"></i>
+                Vehicle Selection (Optional)
+              </h5>
+              <small class="text-muted"
+                >Select your vehicle for more accurate emission
+                calculations</small
+              >
+            </div>
+            <div class="card-body">
+              <div class="row">
+                <div class="col-md-6 mb-3">
+                  <label for="vehicle_type" class="form-label fw-bold">
+                    <i class="fas fa-cog me-2"></i>
+                    Vehicle Type
+                  </label>
+                  <select
+                    class="form-select"
+                    id="vehicle_type"
+                    name="vehicle_type"
+                  >
+                    <option value="">Use default calculations</option>
+                    <option value="car">Car</option>
+                    <option value="motorcycle">Motorcycle</option>
+                    <option value="transit">Public Transit</option>
+                    <option value="truck">Truck</option>
+                  </select>
+                </div>
+
+                <div class="col-md-6 mb-3">
+                  <label for="vehicle_model" class="form-label fw-bold">
+                    <i class="fas fa-tag me-2"></i>
+                    Vehicle Model
+                  </label>
+                  <select
+                    class="form-select"
+                    id="vehicle_model"
+                    name="vehicle_model"
+                    disabled
+                  >
+                    <option value="">Select vehicle type first</option>
+                  </select>
+                </div>
+              </div>
+
+              <!-- Vehicle Info Display -->
+              <div id="vehicle_info" class="mt-3" style="display: none">
+                <div class="alert alert-info">
+                  <div class="row">
+                    <div class="col-md-6">
+                      <strong>Emission Rate:</strong>
+                      <span id="emission_rate">-</span>
+                    </div>
+                    <div class="col-md-6">
+                      <strong>Examples:</strong>
+                      <span id="vehicle_examples">-</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="text-center">
+            <button type="submit" class="btn btn-primary btn-lg">
+              <i class="fas fa-search me-2"></i>
+              Find Eco-Friendly Routes
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <!-- Features Section -->
+    <div class="row mt-5">
+      <div class="col-md-4 mb-4">
+        <div class="card h-100 text-center">
+          <div class="card-body">
+            <div class="mb-3">
+              <i class="fas fa-leaf fa-3x text-success"></i>
+            </div>
+            <h5 class="card-title">Eco-Friendly</h5>
+            <p class="card-text">
+              Find routes with the lowest carbon emissions to reduce your
+              environmental impact.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-4 mb-4">
+        <div class="card h-100 text-center">
+          <div class="card-body">
+            <div class="mb-3">
+              <i class="fas fa-route fa-3x text-primary"></i>
+            </div>
+            <h5 class="card-title">Multiple Options</h5>
+            <p class="card-text">
+              Compare different transportation modes including walking, cycling,
+              and public transit.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-4 mb-4">
+        <div class="card h-100 text-center">
+          <div class="card-body">
+            <div class="mb-3">
+              <i class="fas fa-chart-line fa-3x text-warning"></i>
+            </div>
+            <h5 class="card-title">Emission Tracking</h5>
+            <p class="card-text">
+              See detailed carbon emission calculations for each route option.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- How It Works -->
+    <div class="card mt-4">
+      <div class="card-body">
+        <h4 class="card-title text-center mb-4">
+          <i class="fas fa-info-circle me-2"></i>
+          How It Works
+        </h4>
+        <div class="row">
+          <div class="col-md-3 text-center mb-3">
+            <div
+              class="bg-light rounded-circle d-inline-flex align-items-center justify-content-center"
+              style="width: 60px; height: 60px"
+            >
+              <span class="fw-bold text-primary">1</span>
+            </div>
+            <p class="mt-2 mb-0">Enter your start and end points</p>
+          </div>
+          <div class="col-md-3 text-center mb-3">
+            <div
+              class="bg-light rounded-circle d-inline-flex align-items-center justify-content-center"
+              style="width: 60px; height: 60px"
+            >
+              <span class="fw-bold text-primary">2</span>
+            </div>
+            <p class="mt-2 mb-0">We analyze multiple route options</p>
+          </div>
+          <div class="col-md-3 text-center mb-3">
+            <div
+              class="bg-light rounded-circle d-inline-flex align-items-center justify-content-center"
+              style="width: 60px; height: 60px"
+            >
+              <span class="fw-bold text-primary">3</span>
+            </div>
+            <p class="mt-2 mb-0">Calculate emissions for each route</p>
+          </div>
+          <div class="col-md-3 text-center mb-3">
+            <div
+              class="bg-light rounded-circle d-inline-flex align-items-center justify-content-center"
+              style="width: 60px; height: 60px"
+            >
+              <span class="fw-bold text-primary">4</span>
+            </div>
+            <p class="mt-2 mb-0">Get your eco-friendly recommendations</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %} {% block extra_js %}
+<script>
+  // Vehicle data
+  const vehicleData = {
+    car: {
+      gasoline_small: {
+        name: "Small Gasoline Car",
+        emission_rate: "0.120 kg CO₂/km",
+        examples: "Honda Civic, Toyota Corolla",
+      },
+      gasoline_medium: {
+        name: "Medium Gasoline Car",
+        emission_rate: "0.180 kg CO₂/km",
+        examples: "Toyota Camry, Honda Accord",
+      },
+      gasoline_large: {
+        name: "Large Gasoline Car/SUV",
+        emission_rate: "0.250 kg CO₂/km",
+        examples: "Ford F-150, Toyota Highlander",
+      },
+      diesel_small: {
+        name: "Small Diesel Car",
+        emission_rate: "0.140 kg CO₂/km",
+        examples: "Volkswagen Golf TDI",
+      },
+      diesel_medium: {
+        name: "Medium Diesel Car",
+        emission_rate: "0.200 kg CO₂/km",
+        examples: "BMW 520d, Mercedes E220d",
+      },
+      hybrid: {
+        name: "Hybrid Vehicle",
+        emission_rate: "0.080 kg CO₂/km",
+        examples: "Toyota Prius, Honda Insight",
+      },
+      electric: {
+        name: "Electric Vehicle",
+        emission_rate: "0.040 kg CO₂/km",
+        examples: "Tesla Model 3, Nissan Leaf",
+      },
+      electric_renewable: {
+        name: "Electric Vehicle (Renewable)",
+        emission_rate: "0.010 kg CO₂/km",
+        examples: "Tesla with solar charging",
+      },
+    },
+    motorcycle: {
+      small: {
+        name: "Small Motorcycle",
+        emission_rate: "0.080 kg CO₂/km",
+        examples: "Honda CB125F, Yamaha YBR125",
+      },
+      medium: {
+        name: "Medium Motorcycle",
+        emission_rate: "0.120 kg CO₂/km",
+        examples: "Honda CB500F, Kawasaki Ninja 400",
+      },
+      large: {
+        name: "Large Motorcycle",
+        emission_rate: "0.180 kg CO₂/km",
+        examples: "Honda CBR1000RR, Yamaha R1",
+      },
+      electric: {
+        name: "Electric Motorcycle",
+        emission_rate: "0.020 kg CO₂/km",
+        examples: "Zero SR/F, Harley LiveWire",
+      },
+    },
+    transit: {
+      bus: {
+        name: "Bus",
+        emission_rate: "0.068 kg CO₂/km per passenger",
+        examples: "City buses, intercity coaches",
+      },
+      train: {
+        name: "Train",
+        emission_rate: "0.041 kg CO₂/km per passenger",
+        examples: "Commuter trains, intercity rail",
+      },
+      subway: {
+        name: "Subway/Metro",
+        emission_rate: "0.035 kg CO₂/km per passenger",
+        examples: "New York Subway, London Underground",
+      },
+      tram: {
+        name: "Tram/Light Rail",
+        emission_rate: "0.030 kg CO₂/km per passenger",
+        examples: "Portland Streetcar, San Francisco Muni",
+      },
+    },
+    truck: {
+      small: {
+        name: "Small Truck",
+        emission_rate: "0.200 kg CO₂/km",
+        examples: "Ford Ranger, Toyota Tacoma",
+      },
+      medium: {
+        name: "Medium Truck",
+        emission_rate: "0.350 kg CO₂/km",
+        examples: "Ford F-650, Freightliner M2",
+      },
+      large: {
+        name: "Large Truck",
+        emission_rate: "0.500 kg CO₂/km",
+        examples: "Freightliner Cascadia, Peterbilt 579",
+      },
+    },
+  };
+
+  // Vehicle type change handler
+  document
+    .getElementById("vehicle_type")
+    .addEventListener("change", function () {
+      const vehicleType = this.value;
+      const modelSelect = document.getElementById("vehicle_model");
+      const vehicleInfo = document.getElementById("vehicle_info");
+
+      // Reset model select
+      modelSelect.innerHTML = '<option value="">Select vehicle model</option>';
+      modelSelect.disabled = !vehicleType;
+
+      // Hide vehicle info
+      vehicleInfo.style.display = "none";
+
+      if (vehicleType && vehicleData[vehicleType]) {
+        // Populate model options
+        Object.keys(vehicleData[vehicleType]).forEach((model) => {
+          const option = document.createElement("option");
+          option.value = model;
+          option.textContent = vehicleData[vehicleType][model].name;
+          modelSelect.appendChild(option);
+        });
+      }
+    });
+
+  // Vehicle model change handler
+  document
+    .getElementById("vehicle_model")
+    .addEventListener("change", function () {
+      const vehicleType = document.getElementById("vehicle_type").value;
+      const vehicleModel = this.value;
+      const vehicleInfo = document.getElementById("vehicle_info");
+
+      if (
+        vehicleType &&
+        vehicleModel &&
+        vehicleData[vehicleType][vehicleModel]
+      ) {
+        const data = vehicleData[vehicleType][vehicleModel];
+        document.getElementById("emission_rate").textContent =
+          data.emission_rate;
+        document.getElementById("vehicle_examples").textContent = data.examples;
+        vehicleInfo.style.display = "block";
+      } else {
+        vehicleInfo.style.display = "none";
+      }
+    });
+
+  // Form validation
+  document.getElementById("routeForm").addEventListener("submit", function (e) {
+    const origin = document.getElementById("origin").value.trim();
+    const destination = document.getElementById("destination").value.trim();
+
+    if (!origin || !destination) {
+      e.preventDefault();
+      alert("Please enter both starting point and destination.");
+      return false;
+    }
+
+    if (origin === destination) {
+      e.preventDefault();
+      alert("Starting point and destination cannot be the same.");
+      return false;
+    }
+  });
+</script>
+{% endblock %}

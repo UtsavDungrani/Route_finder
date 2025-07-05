@@ -1,0 +1,341 @@
+{% extends "base.html" %} {% block title %}About - Sustainable Travel Route
+Finder{% endblock %} {% block content %}
+<div class="row justify-content-center">
+  <div class="col-lg-8">
+    <!-- Hero Section -->
+    <div class="text-center mb-5">
+      <h1 class="display-4 fw-bold text-dark mb-3">
+        <i class="fas fa-leaf text-success me-3"></i>
+        About EcoRoute Finder
+      </h1>
+      <p class="lead text-muted">
+        Making sustainable travel choices easier and more accessible for
+        everyone.
+      </p>
+    </div>
+
+    <!-- Mission Statement -->
+    <div class="card shadow-lg mb-4">
+      <div class="card-body p-4">
+        <h3 class="card-title text-center mb-4">
+          <i class="fas fa-bullseye me-2"></i>
+          Our Mission
+        </h3>
+        <p class="text-center lead">
+          We believe that every journey can be an opportunity to reduce our
+          environmental impact. Our platform helps you discover the most
+          eco-friendly travel routes while providing transparent information
+          about carbon emissions.
+        </p>
+      </div>
+    </div>
+
+    <!-- How It Works -->
+    <div class="card shadow-lg mb-4">
+      <div class="card-header">
+        <h4 class="mb-0">
+          <i class="fas fa-cogs me-2"></i>
+          How It Works
+        </h4>
+      </div>
+      <div class="card-body">
+        <div class="row">
+          <div class="col-md-6 mb-4">
+            <div class="d-flex">
+              <div class="flex-shrink-0">
+                <div
+                  class="bg-primary text-white rounded-circle d-flex align-items-center justify-content-center"
+                  style="width: 50px; height: 50px"
+                >
+                  <i class="fas fa-search"></i>
+                </div>
+              </div>
+              <div class="flex-grow-1 ms-3">
+                <h5>Route Analysis</h5>
+                <p class="text-muted">
+                  We analyze multiple transportation options between your start
+                  and end points using advanced routing algorithms.
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-md-6 mb-4">
+            <div class="d-flex">
+              <div class="flex-shrink-0">
+                <div
+                  class="bg-success text-white rounded-circle d-flex align-items-center justify-content-center"
+                  style="width: 50px; height: 50px"
+                >
+                  <i class="fas fa-calculator"></i>
+                </div>
+              </div>
+              <div class="flex-grow-1 ms-3">
+                <h5>Emission Calculation</h5>
+                <p class="text-muted">
+                  We calculate carbon emissions for each route using
+                  scientifically validated emission factors.
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-md-6 mb-4">
+            <div class="d-flex">
+              <div class="flex-shrink-0">
+                <div
+                  class="bg-warning text-white rounded-circle d-flex align-items-center justify-content-center"
+                  style="width: 50px; height: 50px"
+                >
+                  <i class="fas fa-chart-line"></i>
+                </div>
+              </div>
+              <div class="flex-grow-1 ms-3">
+                <h5>Comparison & Ranking</h5>
+                <p class="text-muted">
+                  Routes are ranked by environmental impact, helping you choose
+                  the most sustainable option.
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-md-6 mb-4">
+            <div class="d-flex">
+              <div class="flex-shrink-0">
+                <div
+                  class="bg-info text-white rounded-circle d-flex align-items-center justify-content-center"
+                  style="width: 50px; height: 50px"
+                >
+                  <i class="fas fa-map-marked-alt"></i>
+                </div>
+              </div>
+              <div class="flex-grow-1 ms-3">
+                <h5>Visual Results</h5>
+                <p class="text-muted">
+                  Get detailed maps, directions, and environmental impact
+                  information for your chosen route.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Transportation Modes -->
+    <div class="card shadow-lg mb-4">
+      <div class="card-header">
+        <h4 class="mb-0">
+          <i class="fas fa-route me-2"></i>
+          Transportation Modes
+        </h4>
+      </div>
+      <div class="card-body">
+        <div class="row">
+          <div class="col-md-6 mb-3">
+            <div class="card h-100">
+              <div class="card-body text-center">
+                <i class="fas fa-walking fa-3x text-purple mb-3"></i>
+                <h5>Walking</h5>
+                <p class="text-muted mb-2">
+                  Zero emissions, healthy, and perfect for short distances.
+                </p>
+                <span class="badge bg-success">0 kg CO₂/km</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-md-6 mb-3">
+            <div class="card h-100">
+              <div class="card-body text-center">
+                <i class="fas fa-bicycle fa-3x text-success mb-3"></i>
+                <h5>Cycling</h5>
+                <p class="text-muted mb-2">
+                  Zero emissions, great exercise, and efficient for medium
+                  distances.
+                </p>
+                <span class="badge bg-success">0 kg CO₂/km</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-md-6 mb-3">
+            <div class="card h-100">
+              <div class="card-body text-center">
+                <i class="fas fa-bus fa-3x text-primary mb-3"></i>
+                <h5>Public Transit</h5>
+                <p class="text-muted mb-2">
+                  Low emissions per passenger, reduces traffic congestion.
+                </p>
+                <span class="badge bg-warning">0.068 kg CO₂/km</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-md-6 mb-3">
+            <div class="card h-100">
+              <div class="card-body text-center">
+                <i class="fas fa-car fa-3x text-danger mb-3"></i>
+                <h5>Driving</h5>
+                <p class="text-muted mb-2">
+                  Higher emissions, but sometimes necessary for longer trips.
+                </p>
+                <span class="badge bg-danger">0.120 kg CO₂/km</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Environmental Impact -->
+    <div class="card shadow-lg mb-4">
+      <div class="card-header">
+        <h4 class="mb-0">
+          <i class="fas fa-globe-americas me-2"></i>
+          Environmental Impact
+        </h4>
+      </div>
+      <div class="card-body">
+        <div class="row">
+          <div class="col-md-6">
+            <h5>Why Choose Eco-Friendly Routes?</h5>
+            <ul class="list-unstyled">
+              <li class="mb-2">
+                <i class="fas fa-check text-success me-2"></i>
+                Reduce your carbon footprint
+              </li>
+              <li class="mb-2">
+                <i class="fas fa-check text-success me-2"></i>
+                Improve air quality in your community
+              </li>
+              <li class="mb-2">
+                <i class="fas fa-check text-success me-2"></i>
+                Save money on fuel and parking
+              </li>
+              <li class="mb-2">
+                <i class="fas fa-check text-success me-2"></i>
+                Get exercise and improve health
+              </li>
+              <li class="mb-2">
+                <i class="fas fa-check text-success me-2"></i>
+                Reduce traffic congestion
+              </li>
+            </ul>
+          </div>
+
+          <div class="col-md-6">
+            <h5>Emission Factors</h5>
+            <p class="text-muted">
+              Our emission calculations are based on scientific research and
+              industry standards. We consider factors such as:
+            </p>
+            <ul class="list-unstyled">
+              <li class="mb-2">
+                <i class="fas fa-info-circle text-info me-2"></i>
+                Vehicle type and efficiency
+              </li>
+              <li class="mb-2">
+                <i class="fas fa-info-circle text-info me-2"></i>
+                Fuel type and consumption
+              </li>
+              <li class="mb-2">
+                <i class="fas fa-info-circle text-info me-2"></i>
+                Distance and route conditions
+              </li>
+              <li class="mb-2">
+                <i class="fas fa-info-circle text-info me-2"></i>
+                Passenger occupancy for transit
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Technology -->
+    <div class="card shadow-lg mb-4">
+      <div class="card-header">
+        <h4 class="mb-0">
+          <i class="fas fa-microchip me-2"></i>
+          Technology
+        </h4>
+      </div>
+      <div class="card-body">
+        <div class="row">
+          <div class="col-md-4 text-center mb-3">
+            <i class="fab fa-python fa-3x text-primary mb-2"></i>
+            <h6>Python Flask</h6>
+            <p class="text-muted small">
+              Backend framework for robust API and web services
+            </p>
+          </div>
+
+          <div class="col-md-4 text-center mb-3">
+            <i class="fas fa-map fa-3x text-success mb-2"></i>
+            <h6>OpenRouteService</h6>
+            <p class="text-muted small">
+              Advanced routing and geocoding capabilities
+            </p>
+          </div>
+
+          <div class="col-md-4 text-center mb-3">
+            <i class="fab fa-js-square fa-3x text-warning mb-2"></i>
+            <h6>Interactive Maps</h6>
+            <p class="text-muted small">
+              Leaflet.js for beautiful, interactive route visualization
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Contact -->
+    <div class="card shadow-lg">
+      <div class="card-header">
+        <h4 class="mb-0">
+          <i class="fas fa-envelope me-2"></i>
+          Get in Touch
+        </h4>
+      </div>
+      <div class="card-body text-center">
+        <p class="lead mb-4">
+          Have questions, suggestions, or want to contribute to making travel
+          more sustainable?
+        </p>
+        <div class="row">
+          <div class="col-md-4 mb-3">
+            <i class="fas fa-bug fa-2x text-warning mb-2"></i>
+            <h6>Report Issues</h6>
+            <p class="text-muted small">
+              Help us improve by reporting bugs or suggesting features
+            </p>
+          </div>
+
+          <div class="col-md-4 mb-3">
+            <i class="fas fa-lightbulb fa-2x text-info mb-2"></i>
+            <h6>Suggestions</h6>
+            <p class="text-muted small">
+              Share ideas for new features or improvements
+            </p>
+          </div>
+
+          <div class="col-md-4 mb-3">
+            <i class="fas fa-code fa-2x text-success mb-2"></i>
+            <h6>Contribute</h6>
+            <p class="text-muted small">
+              Join our development team and help build a greener future
+            </p>
+          </div>
+        </div>
+
+        <a href="{{ url_for('home') }}" class="btn btn-primary">
+          <i class="fas fa-arrow-left me-2"></i>
+          Back to Route Finder
+        </a>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

@@ -1,0 +1,379 @@
+{% extends "base.html" %} {% block title %}Route Results - Sustainable Travel
+Route Finder{% endblock %} {% block content %}
+<div class="row">
+  <div class="col-lg-8">
+    {% if no_routes %}
+    <!-- No Routes Found -->
+    <div class="text-center">
+      <div class="mb-4">
+        <i class="fas fa-exclamation-triangle fa-4x text-warning"></i>
+      </div>
+      <h2 class="text-dark mb-3">No Routes Found</h2>
+      <p class="lead text-muted mb-4">
+        We couldn't find any routes between <strong>{{ origin }}</strong> and
+        <strong>{{ destination }}</strong>.
+      </p>
+      <div class="alert alert-info">
+        <h5><i class="fas fa-lightbulb me-2"></i>Suggestions:</h5>
+        <ul class="text-start mb-0">
+          <li>Check the spelling of your locations</li>
+          <li>Try using more specific addresses</li>
+          <li>Use city names instead of specific addresses</li>
+          <li>Ensure both locations are accessible by transportation</li>
+        </ul>
+      </div>
+      <a href="{{ url_for('home') }}" class="btn btn-primary">
+        <i class="fas fa-arrow-left me-2"></i>
+        Try Different Locations
+      </a>
+    </div>
+    {% else %}
+    <!-- Route Results -->
+    <div class="mb-4">
+      <h2 class="text-dark mb-3">
+        <i class="fas fa-route me-2"></i>
+        Route Results
+      </h2>
+      <div class="d-flex align-items-center mb-3">
+        <div class="bg-light rounded p-2 me-3">
+          <i class="fas fa-map-marker-alt text-danger"></i>
+          <span class="ms-2 fw-bold">{{ origin }}</span>
+        </div>
+        <i class="fas fa-arrow-right text-muted mx-2"></i>
+        <div class="bg-light rounded p-2">
+          <i class="fas fa-map-marker text-success"></i>
+          <span class="ms-2 fw-bold">{{ destination }}</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Best Route Card -->
+    <div class="card shadow-lg mb-4 route-card {{ route.mode }}">
+      <div class="card-header bg-success text-white">
+        <h4 class="mb-0">
+          <i class="fas fa-trophy me-2"></i>
+          Best Eco-Friendly Route
+        </h4>
+      </div>
+      <div class="card-body">
+        <div class="row align-items-center">
+          <div class="col-md-8">
+            <div class="d-flex align-items-center mb-3">
+              <span class="mode-icon">
+                {% if route.mode == 'driving' %}
+                <i class="fas fa-car text-danger"></i>
+                {% elif route.mode == 'transit' %}
+                <i class="fas fa-bus text-primary"></i>
+                {% elif route.mode == 'bicycling' %}
+                <i class="fas fa-bicycle text-success"></i>
+                {% elif route.mode == 'walking' %}
+                <i class="fas fa-walking text-purple"></i>
+                {% endif %}
+              </span>
+              <div>
+                <h5 class="mb-0 text-capitalize">{{ route.mode }}</h5>
+                {% if route.vehicle_name %}
+                <small class="text-muted">{{ route.vehicle_name }}</small>
+                {% endif %}
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col-6">
+                <div class="d-flex align-items-center mb-2">
+                  <i class="fas fa-clock text-muted me-2"></i>
+                  <span class="fw-bold">{{ route.duration }} min</span>
+                </div>
+              </div>
+              <div class="col-6">
+                <div class="d-flex align-items-center mb-2">
+                  <i class="fas fa-road text-muted me-2"></i>
+                  <span class="fw-bold"
+                    >{{ "%.1f"|format(route.distance) }} km</span
+                  >
+                </div>
+              </div>
+            </div>
+
+            {% if route.vehicle_emission_rate %}
+            <div class="alert alert-info mt-3">
+              <i class="fas fa-info-circle me-2"></i>
+              <strong>Vehicle Emission Rate:</strong> {{
+              route.vehicle_emission_rate }}
+            </div>
+            {% endif %} {% if route.emission_savings %}
+            <div class="alert alert-success mt-3">
+              <i class="fas fa-leaf me-2"></i>
+              <strong>Emission Savings:</strong>
+              You'll save {{ "%.1f"|format(route.emission_savings) }} kg CO₂
+              compared to driving!
+            </div>
+            {% endif %}
+          </div>
+
+          <div class="col-md-4 text-center">
+            <div class="emission-badge mb-2">
+              <i class="fas fa-cloud me-1"></i>
+              {{ "%.1f"|format(route.emission) }} kg CO₂
+            </div>
+            <small class="text-muted">
+              {{ "%.3f"|format(route.emission_per_km) }} kg/km
+            </small>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Map -->
+    {% if route_geometry %}
+    <div class="card shadow-lg mb-4">
+      <div class="card-header">
+        <h5 class="mb-0">
+          <i class="fas fa-map me-2"></i>
+          Route Map
+        </h5>
+      </div>
+      <div class="card-body p-0">
+        <div id="map"></div>
+      </div>
+    </div>
+    {% endif %}
+
+    <!-- All Routes Comparison -->
+    <div class="card shadow-lg">
+      <div class="card-header">
+        <h5 class="mb-0">
+          <i class="fas fa-list me-2"></i>
+          All Route Options
+        </h5>
+      </div>
+      <div class="card-body">
+        <div class="table-responsive">
+          <table class="table table-hover">
+            <thead>
+              <tr>
+                <th>Mode</th>
+                <th>Duration</th>
+                <th>Distance</th>
+                <th>Emissions</th>
+                <th>Efficiency</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for route_option in all_routes %}
+              <tr
+                class="{% if route_option == route %}table-success{% endif %}"
+              >
+                <td>
+                  <div class="d-flex align-items-center">
+                    <span class="mode-icon">
+                      {% if route_option.mode == 'driving' %}
+                      <i class="fas fa-car text-danger"></i>
+                      {% elif route_option.mode == 'transit' %}
+                      <i class="fas fa-bus text-primary"></i>
+                      {% elif route_option.mode == 'bicycling' %}
+                      <i class="fas fa-bicycle text-success"></i>
+                      {% elif route_option.mode == 'walking' %}
+                      <i class="fas fa-walking text-purple"></i>
+                      {% endif %}
+                    </span>
+                    <div>
+                      <span class="text-capitalize"
+                        >{{ route_option.mode }}</span
+                      >
+                      {% if route_option.vehicle_name %}
+                      <br /><small class="text-muted"
+                        >{{ route_option.vehicle_name }}</small
+                      >
+                      {% endif %}
+                    </div>
+                    {% if route_option == route %}
+                    <span class="badge bg-success ms-2">Best</span>
+                    {% endif %}
+                  </div>
+                </td>
+                <td>{{ route_option.duration }} min</td>
+                <td>{{ "%.1f"|format(route_option.distance) }} km</td>
+                <td>
+                  <span class="fw-bold"
+                    >{{ "%.1f"|format(route_option.emission) }} kg</span
+                  >
+                </td>
+                <td>
+                  <div class="progress" style="height: 8px">
+                    {% set max_emission =
+                    all_routes|map(attribute='emission')|max %} {% set
+                    percentage = (route_option.emission / max_emission * 100) if
+                    max_emission > 0 else 0 %}
+                    <div
+                      class="progress-bar bg-success"
+                      style="width: {{ 100 - percentage }}%"
+                    ></div>
+                  </div>
+                  <small class="text-muted"
+                    >{{ "%.1f"|format(100 - percentage) }}% efficient</small
+                  >
+                </td>
+              </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+    {% endif %}
+  </div>
+
+  <!-- Sidebar -->
+  <div class="col-lg-4">
+    <!-- Quick Actions -->
+    <div class="card shadow-lg mb-4">
+      <div class="card-header">
+        <h5 class="mb-0">
+          <i class="fas fa-tools me-2"></i>
+          Quick Actions
+        </h5>
+      </div>
+      <div class="card-body">
+        <a
+          href="{{ url_for('home') }}"
+          class="btn btn-outline-primary w-100 mb-2"
+        >
+          <i class="fas fa-search me-2"></i>
+          New Search
+        </a>
+        <button
+          class="btn btn-outline-success w-100 mb-2"
+          onclick="shareRoute()"
+        >
+          <i class="fas fa-share me-2"></i>
+          Share Route
+        </button>
+        <button class="btn btn-outline-info w-100" onclick="printResults()">
+          <i class="fas fa-print me-2"></i>
+          Print Results
+        </button>
+      </div>
+    </div>
+
+    <!-- Environmental Impact -->
+    <div class="card shadow-lg mb-4">
+      <div class="card-header">
+        <h5 class="mb-0">
+          <i class="fas fa-leaf me-2"></i>
+          Environmental Impact
+        </h5>
+      </div>
+      <div class="card-body">
+        {% if route.emission_savings %}
+        <div class="text-center mb-3">
+          <div class="display-6 text-success fw-bold">
+            {{ "%.1f"|format(route.emission_savings) }}
+          </div>
+          <div class="text-muted">kg CO₂ saved</div>
+        </div>
+
+        <div class="small text-muted">
+          <p>
+            <i class="fas fa-tree me-2"></i>Equivalent to planting {{
+            (route.emission_savings / 0.022)|round|int }} trees
+          </p>
+          <p>
+            <i class="fas fa-car me-2"></i>Equivalent to driving {{
+            (route.emission_savings / 0.120)|round(1) }} fewer km
+          </p>
+        </div>
+        {% else %}
+        <p class="text-muted">
+          This is already the most eco-friendly option available.
+        </p>
+        {% endif %}
+      </div>
+    </div>
+
+    <!-- Tips -->
+    <div class="card shadow-lg">
+      <div class="card-header">
+        <h5 class="mb-0">
+          <i class="fas fa-lightbulb me-2"></i>
+          Eco Tips
+        </h5>
+      </div>
+      <div class="card-body">
+        <ul class="list-unstyled mb-0">
+          <li class="mb-2">
+            <i class="fas fa-check text-success me-2"></i>
+            Consider carpooling for longer trips
+          </li>
+          <li class="mb-2">
+            <i class="fas fa-check text-success me-2"></i>
+            Use public transport when available
+          </li>
+          <li class="mb-2">
+            <i class="fas fa-check text-success me-2"></i>
+            Walk or cycle for short distances
+          </li>
+          <li class="mb-2">
+            <i class="fas fa-check text-success me-2"></i>
+            Plan routes to minimize stops
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %} {% block extra_js %} {% if route_geometry %}
+<script>
+  // Initialize map
+  var map = L.map('map').setView([0, 0], 13);
+
+  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      attribution: '© OpenStreetMap contributors'
+  }).addTo(map);
+
+  // Add route to map
+  var routeCoordinates = {{ route_geometry|tojson }};
+  var routeLine = L.polyline(routeCoordinates, {
+      color: '#2ecc71',
+      weight: 6,
+      opacity: 0.8
+  }).addTo(map);
+
+  // Add markers for start and end points
+  if (routeCoordinates.length > 0) {
+      L.marker(routeCoordinates[0]).addTo(map)
+          .bindPopup('<b>Start:</b> {{ origin }}')
+          .openPopup();
+
+      L.marker(routeCoordinates[routeCoordinates.length - 1]).addTo(map)
+          .bindPopup('<b>End:</b> {{ destination }}');
+
+      // Fit map to show entire route
+      map.fitBounds(routeLine.getBounds());
+  }
+</script>
+{% endif %}
+
+<script>
+  function shareRoute() {
+    const text = `Eco-friendly route from {{ origin }} to {{ destination }}: {{ route.mode }} - {{ "%.1f"|format(route.emission) }} kg CO₂ emissions`;
+
+    if (navigator.share) {
+      navigator.share({
+        title: "Eco-Friendly Route",
+        text: text,
+        url: window.location.href,
+      });
+    } else {
+      // Fallback: copy to clipboard
+      navigator.clipboard.writeText(text).then(() => {
+        alert("Route information copied to clipboard!");
+      });
+    }
+  }
+
+  function printResults() {
+    window.print();
+  }
+</script>
+{% endblock %}

@@ -1,0 +1,46 @@
+{% extends "base.html" %} {% block title %}Error - Sustainable Travel Route
+Finder{% endblock %} {% block content %}
+<div class="row justify-content-center">
+  <div class="col-lg-6 text-center">
+    <div class="mb-5">
+      <i class="fas fa-exclamation-circle fa-5x text-danger mb-4"></i>
+      <h2 class="text-dark mb-3">Oops! Something went wrong</h2>
+      <p class="lead text-muted mb-4">{{ error }}</p>
+    </div>
+
+    <div class="card shadow-lg mb-4">
+      <div class="card-body">
+        <h5 class="card-title">
+          <i class="fas fa-lightbulb me-2"></i>
+          What you can do:
+        </h5>
+        <ul class="list-unstyled text-start">
+          <li class="mb-2">
+            <i class="fas fa-check text-success me-2"></i>
+            Check your input and try again
+          </li>
+          <li class="mb-2">
+            <i class="fas fa-check text-success me-2"></i>
+            Use different location names
+          </li>
+          <li class="mb-2">
+            <i class="fas fa-check text-success me-2"></i>
+            Make sure both locations are valid
+          </li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="d-grid gap-2 d-md-block">
+      <a href="{{ url_for('home') }}" class="btn btn-primary btn-lg">
+        <i class="fas fa-home me-2"></i>
+        Go Home
+      </a>
+      <button onclick="history.back()" class="btn btn-outline-secondary btn-lg">
+        <i class="fas fa-arrow-left me-2"></i>
+        Go Back
+      </button>
+    </div>
+  </div>
+</div>
+{% endblock %}

@@ -1,0 +1,168 @@
+/* Custom styles for Sustainable Travel Route Finder */
+
+/* Print styles */
+@media print {
+  .navbar,
+  .footer,
+  .btn,
+  .card-header {
+    display: none !important;
+  }
+
+  .main-container {
+    box-shadow: none !important;
+    background: white !important;
+  }
+
+  .card {
+    box-shadow: none !important;
+    border: 1px solid #ddd !important;
+  }
+}
+
+/* Loading animation */
+.loading-spinner {
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+  border: 3px solid rgba(255, 255, 255, 0.3);
+  border-radius: 50%;
+  border-top-color: #fff;
+  animation: spin 1s ease-in-out infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #2ecc71;
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #27ae60;
+}
+
+/* Route comparison table enhancements */
+.route-table th {
+  background: linear-gradient(45deg, #2ecc71, #27ae60);
+  color: white;
+  border: none;
+}
+
+.route-table tbody tr:hover {
+  background-color: rgba(46, 204, 113, 0.1);
+}
+
+/* Emission badge animations */
+.emission-badge {
+  animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.05);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+/* Map container enhancements */
+#map {
+  border: 2px solid #e9ecef;
+  transition: all 0.3s ease;
+}
+
+#map:hover {
+  border-color: #2ecc71;
+  box-shadow: 0 5px 15px rgba(46, 204, 113, 0.2);
+}
+
+/* Form enhancements */
+.form-control:focus {
+  transform: translateY(-2px);
+  box-shadow: 0 5px 15px rgba(46, 204, 113, 0.2);
+}
+
+/* Card hover effects */
+.card {
+  transition: all 0.3s ease;
+}
+
+.card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+}
+
+/* Button enhancements */
+.btn {
+  transition: all 0.3s ease;
+}
+
+.btn:hover {
+  transform: translateY(-2px);
+}
+
+/* Responsive improvements */
+@media (max-width: 768px) {
+  .display-4 {
+    font-size: 2rem;
+  }
+
+  .lead {
+    font-size: 1rem;
+  }
+
+  .card-body {
+    padding: 1rem;
+  }
+}
+
+/* Accessibility improvements */
+.btn:focus,
+.form-control:focus {
+  outline: 2px solid #2ecc71;
+  outline-offset: 2px;
+}
+
+/* Dark mode support */
+@media (prefers-color-scheme: dark) {
+  body {
+    background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
+  }
+
+  .main-container {
+    background: rgba(52, 73, 94, 0.95);
+    color: #ecf0f1;
+  }
+
+  .card {
+    background: rgba(44, 62, 80, 0.9);
+    color: #ecf0f1;
+  }
+
+  .text-dark {
+    color: #ecf0f1 !important;
+  }
+
+  .text-muted {
+    color: #bdc3c7 !important;
+  }
+}
