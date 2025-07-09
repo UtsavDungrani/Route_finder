@@ -43,7 +43,7 @@ A Flask web application that helps users find the most eco-friendly travel route
 3. **Install dependencies**
 
    ```bash
-   pip install -r requirnments.txt
+   pip install -r requirments.txt
    ```
 
 4. **Set up environment variables**
