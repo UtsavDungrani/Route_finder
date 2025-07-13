@@ -86,7 +86,7 @@ A Flask web application that helps users find the most eco-friendly travel route
 
 ```
 new_treavel/
-├── app.py                 # Main Flask application
+├── app.py                # Main Flask application
 ├── config.py             # Configuration settings
 ├── wsgi.py               # WSGI entry point
 ├── requirnments.txt      # Python dependencies
@@ -261,5 +261,3 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 - [ ] Accessibility route options
 
 ---
-
-**Made with ❤️ for a greener future**
