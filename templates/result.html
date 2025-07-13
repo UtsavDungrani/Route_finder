@@ -82,7 +82,7 @@ Route Finder{% endblock %} {% block content %}
               <div class="col-6">
                 <div class="d-flex align-items-center mb-2">
                   <i class="fas fa-clock text-muted me-2"></i>
-                  <span class="fw-bold">{{ route.duration }} min</span>
+                  <span class="fw-bold">{{ route.duration_formatted }}</span>
                 </div>
               </div>
               <div class="col-6">
@@ -135,6 +135,12 @@ Route Finder{% endblock %} {% block content %}
       </div>
       <div class="card-body p-0">
         <div id="map"></div>
+        <div class="p-3 border-top">
+          <button onclick="openGoogleMaps()" class="btn btn-warning w-100">
+            <i class="fas fa-map-marked-alt me-2"></i>
+            Get Directions in Google Maps
+          </button>
+        </div>
       </div>
     </div>
     {% endif %}
@@ -192,7 +198,7 @@ Route Finder{% endblock %} {% block content %}
                     {% endif %}
                   </div>
                 </td>
-                <td>{{ route_option.duration }} min</td>
+                <td>{{ route_option.duration_formatted }}</td>
                 <td>{{ "%.1f"|format(route_option.distance) }} km</td>
                 <td>
                   <span class="fw-bold"
@@ -249,9 +255,19 @@ Route Finder{% endblock %} {% block content %}
           <i class="fas fa-share me-2"></i>
           Share Route
         </button>
-        <button class="btn btn-outline-info w-100" onclick="printResults()">
+        <button
+          class="btn btn-outline-info w-100 mb-2"
+          onclick="printResults()"
+        >
           <i class="fas fa-print me-2"></i>
           Print Results
+        </button>
+        <button
+          onclick="openGoogleMaps()"
+          class="btn btn-outline-warning w-100"
+        >
+          <i class="fas fa-map-marked-alt me-2"></i>
+          Open in Google Maps
         </button>
       </div>
     </div>
@@ -374,6 +390,24 @@ Route Finder{% endblock %} {% block content %}
 
   function printResults() {
     window.print();
+  }
+
+  function openGoogleMaps() {
+    const origin = "{{ origin|urlencode }}";
+    const destination = "{{ destination|urlencode }}";
+    const mode = "{{ route.mode }}";
+
+    // Map our modes to Google Maps travel modes
+    const googleMode =
+      {
+        driving: "driving",
+        transit: "transit",
+        bicycling: "bicycling",
+        walking: "walking",
+      }[mode] || "driving";
+
+    const url = `https://www.google.com/maps/dir/${origin}/${destination}/data=!4m2!4m1!3e${googleMode}`;
+    window.open(url, "_blank");
   }
 </script>
 {% endblock %}
